@@ -33,9 +33,4 @@ void main(List<String> args) {
 
     insertAll(index, [values]) => thêm mảng các  phần tử có giá trị value vào vị trí thứ index vào mảng
    */
-  /*
-
-
-
-   */
 }

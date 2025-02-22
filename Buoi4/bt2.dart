@@ -9,10 +9,17 @@ void main(List<String> args) {
   Set<int> set1 = {1, 2, 3};
   var set2 = {3, 4, 5};
   // Union (hợp)
-  print(set1.union(set2));
-  print(set1.intersection(set2));
-  print(set1.difference(set2));
-  print(set2.difference(set1));
+  // res: [1,2,3,4,5] => chứa tất cả các phần tử của cả 2 set => không trùng
+  // Intersection (giao)
+  // res: [3] => cả hai cùng có
+  // Difference (hiệu) của set1 với set2
+  // res: [1,2] => 1 có 2 không có
+
+  // Đoạn code sau sẽ cho kết quả gì?
+
+  // dartCopyvar mySet = Set.from([1, 2, 2, 3, 3, 4]);
+  // print(mySet.length);
+  //res => [1,2,3,4]
 }
 
 // Bài 2: Set
