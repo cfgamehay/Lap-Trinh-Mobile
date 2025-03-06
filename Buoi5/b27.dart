@@ -31,4 +31,6 @@ void main(List<String> args) {
   var getSum = ((int a, int b) => a + b)(10, 20);
 
   print(getSum);
+
+  var sum3 = (int a, int b) => a + b;
 }
