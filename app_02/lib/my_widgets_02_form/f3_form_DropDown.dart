@@ -1,0 +1,242 @@
+import 'package:flutter/material.dart';
+
+class DropDown extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => _FormBasicDemoState();
+}
+
+class _FormBasicDemoState extends State<DropDown>
+{
+  final _formKey = GlobalKey<FormState>();
+  String? _name;
+  String? _email;
+  String? _password;
+  String? _confirmPassword;
+  String? _phone;
+  String? _city;
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
+  final _phoneController = TextEditingController();
+
+  bool _isPasswordVisible = false;
+
+  final List<String> _cities = ["Hà Nội", "Hồ Chí Minh", "Đà Nẵng"];
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text("Basic Form")),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              //Lien quan
+              //Validator
+              //Controller
+              //obscureText
+              //AutovalidateMode
+              TextFormField(
+                controller: _fullNameController,
+                decoration: InputDecoration(
+                  labelText: "Họ và tên",
+                  hintText: "Nhập họ và tên",
+                  prefixIcon: Icon(Icons.person),
+                  border: OutlineInputBorder(),
+                ),
+                onSaved: (value){
+                  _name = value;
+                },
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+
+                    return 'Vui lòng nhập tên người dùng';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20,),
+
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: "Email",
+                  hintText: "Nhập email",
+                  prefixIcon: Icon(Icons.email),
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.emailAddress,
+                onSaved: (value){
+                  _email = value;
+                },
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Vui lòng email';
+                  }
+                  else if(!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value))
+                  {
+                    return 'Vui lòng nhập email hợp lệ';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20,),
+
+              TextFormField(
+                controller: _phoneController,
+                decoration: InputDecoration(
+                  labelText: "Số điện thoại",
+                  hintText: "Nhập số điện thoại",
+                  prefixIcon: Icon(Icons.phone),
+                  border: OutlineInputBorder(),
+                ),
+                keyboardType: TextInputType.phone,
+                onSaved: (value){
+                  _phone = value;
+                },
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Vui lòng nhập số điện thoại';
+                  }
+                  else if(!RegExp(r'^\d{10}$').hasMatch(value))
+                  {
+                    return 'Vui lòng số điện thoại hợp lệ';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20,),
+
+              TextFormField(
+                controller: _passwordController,
+                decoration: InputDecoration(
+                  labelText: "Mật khẩu",
+                  hintText: "Nhập mật khẩu",
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.remove_red_eye),
+                    onPressed: (){
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
+                  border: OutlineInputBorder(),
+                ),
+                obscureText: _isPasswordVisible,
+                onSaved: (value){
+                  _password = value;
+                },
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Vui lòng nhập tên người dùng';
+                  }
+                  else if(!RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}$').hasMatch(value))
+                  {
+                    return 'Vui lòng nhập mật khẩu hợp lệ';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20,),
+
+              TextFormField(
+                controller: _confirmPasswordController,
+                decoration: InputDecoration(
+                  labelText: "Xác nhận mật khẩu",
+                  hintText: "Nhập mật khẩu",
+                  prefixIcon: Icon(Icons.lock),
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.remove_red_eye),
+                    onPressed: (){
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
+                  border: OutlineInputBorder(),
+                ),
+                obscureText: _isPasswordVisible,
+                onSaved: (value){
+                  _confirmPassword = value;
+                },
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Vui lòng nhập tên người dùng';
+                  }
+                  else if(value != _passwordController.text)
+                  {
+                    return 'Mật khẩu không khớp';
+                  }
+                  return null;
+                },
+              ),
+
+              SizedBox(height: 20,),
+
+              DropdownButtonFormField(
+                decoration: InputDecoration(
+                  labelText: "Chọn thành phố",
+                  border: OutlineInputBorder(),
+                ),
+                items: _cities.map((city){
+                  return DropdownMenuItem(
+                    value: city,
+                    child: Text(city),
+                  );
+                }).toList(),
+                value: _city,
+                onChanged: (String? value) {
+
+                },
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Vui lòng chọn thành phố';
+                  }
+                  return null;
+                }
+              ),
+
+              Row(
+                children: [
+                  ElevatedButton(onPressed: (){
+                    if(_formKey.currentState!.validate()){
+                      _formKey.currentState!.save();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text("Tên của bạn là $_name"))
+                      );
+                    }
+                  }, child: Text("Submit")),
+                  SizedBox(width: 20,),
+                  ElevatedButton(onPressed: (){
+                    _formKey.currentState!.reset();
+                    setState(() {
+                      _name = null;
+                      _email = null;
+                      _password = null;
+                      _fullNameController.clear();
+                      _emailController.clear();
+                      _passwordController.clear();
+                      _confirmPasswordController.clear();
+                      _isPasswordVisible = false;
+
+                    });
+                  }, child: Text("reset")),
+                ]
+              )
+
+            ]
+          )
+        )
+      )
+    );
+  }
+}
